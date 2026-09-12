@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Painel — Ferreira Laranjeira</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0b0b0b;
+    color: #eee;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    color: #d7c08a;
+    font-family: Georgia, serif;
+    font-weight: normal;
+}
+
+h2 {
+    color: #d7c08a;
+    font-family: Georgia, serif;
+    margin-top: 35px;
+}
+
+.box {
+    background: #151515;
+    border: 1px solid #292929;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    color: #c9aa5d;
+    font-size: 13px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 13px;
+    background: #0b0b0b;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    margin-top: 25px;
+    padding: 13px 25px;
+    border: 0;
+    border-radius: 5px;
+    background: #c9aa5d;
+    color: #080808;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+#painel {
+    display: none;
+}
+
+#mensagem {
+    margin-top: 20px;
+    color: #d7c08a;
+}
+
+.logout {
+    float: right;
+    background: transparent;
+    border: 1px solid #555;
+    color: #ccc;
+    margin-top: 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Ferreira Laranjeira</h1>
+    <p>Painel administrativo</p>
+
+    <!-- LOGIN -->
+    <div id="login" class="box">
+
+        <h2>Acesso</h2>
+
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="Seu e-mail">
+
+        <label>Senha</label>
+        <input type="password" id="senha" placeholder="Sua senha">
+
+        <button onclick="entrar()">ENTRAR</button>
+
+        <div id="loginMensagem"></div>
+
+    </div>
+
+
+    <!-- PAINEL -->
+    <div id="painel">
+
+        <button class="logout" onclick="sair()">SAIR</button>
+
+        <h2>Conteúdo do site</h2>
+
+        <div class="box">
+
+            <label>Marca curta</label>
+            <input id="brand">
+
+            <label>Texto pequeno da capa</label>
+            <input id="heroEyebrow">
+
+            <label>Texto principal da capa</label>
+            <textarea id="heroTexto"></textarea>
+
+            <label>Texto da História</label>
+            <textarea id="historiaTexto"></textarea>
+
+            <label>Título dos Valores</label>
+            <input id="valoresTitulo">
+
+            <label>Texto do Valor — Família</label>
+            <textarea id="familiaTexto"></textarea>
+
+            <label>Texto do Valor — Tradição</label>
+            <textarea id="tradicaoTexto"></textarea>
+
+            <label>Texto do Valor — Futuro</label>
+            <textarea id="futuroTexto"></textarea>
+
+            <label>Frase</label>
+            <textarea id="frase"></textarea>
+
+            <label>Autor da frase</label>
+            <input id="fraseAutor">
+
+            <label>Texto de contato</label>
+            <textarea id="contatoTexto"></textarea>
+
+            <label>E-mail de contato</label>
+            <input id="emailContato" type="email">
+
+            <button onclick="salvar()">SALVAR ALTERAÇÕES</button>
+
+            <div id="mensagem"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+'https://yngpwflmlipthvgkfbue.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_jm_plPj3xmnhE7I5OthulQ_NDtpCSeu';
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+async function entrar() {
+
+    const email =
+        document.getElementById('email').value;
+
+    const senha =
+        document.getElementById('senha').value;
+
+    const mensagem =
+        document.getElementById('loginMensagem');
+
+    mensagem.textContent = 'Entrando...';
+
+    const { error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: senha
+        });
+
+    if (error) {
+
+        mensagem.textContent =
+            'E-mail ou senha incorretos.';
+
+        return;
+    }
+
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('painel').style.display = 'block';
+
+    carregar();
+
+}
+
+
+async function carregar() {
+
+    const { data, error } =
+        await supabaseClient
+        .from('site_content')
+        .select('content')
+        .eq('id', 'site')
+        .maybeSingle();
+
+    if (error) {
+
+        document.getElementById('mensagem').textContent =
+            'Erro ao carregar conteúdo.';
+
+        return;
+    }
+
+    if (!data || !data.content) return;
+
+    const c = data.content;
+
+    document.getElementById('brand').value =
+        c.brand || '';
+
+    document.getElementById('heroEyebrow').value =
+        c.heroEyebrow || '';
+
+    document.getElementById('heroTexto').value =
+        c.heroTexto || '';
+
+    document.getElementById('historiaTexto').value =
+        c.historiaTexto || '';
+
+    document.getElementById('valoresTitulo').value =
+        c.valoresTitulo || '';
+
+    document.getElementById('familiaTexto').value =
+        c.familiaTexto || '';
+
+    document.getElementById('tradicaoTexto').value =
+        c.tradicaoTexto || '';
+
+    document.getElementById('futuroTexto').value =
+        c.futuroTexto || '';
+
+    document.getElementById('frase').value =
+        c.frase || '';
+
+    document.getElementById('fraseAutor').value =
+        c.fraseAutor || '';
+
+    document.getElementById('contatoTexto').value =
+        c.contatoTexto || '';
+
+    document.getElementById('emailContato').value =
+        c.emailContato || '';
+
+}
+
+
+async function salvar() {
+
+    const conteudo = {
+
+        brand:
+            document.getElementById('brand').value,
+
+        heroEyebrow:
+            document.getElementById('heroEyebrow').value,
+
+        heroTexto:
+            document.getElementById('heroTexto').value,
+
+        historiaTexto:
+            document.getElementById('historiaTexto').value,
+
+        valoresTitulo:
+            document.getElementById('valoresTitulo').value,
+
+        familiaTexto:
+            document.getElementById('familiaTexto').value,
+
+        tradicaoTexto:
+            document.getElementById('tradicaoTexto').value,
+
+        futuroTexto:
+            document.getElementById('futuroTexto').value,
+
+        frase:
+            document.getElementById('frase').value,
+
+        fraseAutor:
+            document.getElementById('fraseAutor').value,
+
+        contatoTexto:
+            document.getElementById('contatoTexto').value,
+
+        emailContato:
+            document.getElementById('emailContato').value
+
+    };
+
+
+    const { error } =
+        await supabaseClient
+        .from('site_content')
+        .upsert({
+            id: 'site',
+            content: conteudo,
+            updated_at: new Date().toISOString()
+        });
+
+
+    const mensagem =
+        document.getElementById('mensagem');
+
+
+    if (error) {
+
+        console.error(error);
+
+        mensagem.textContent =
+            'Erro ao salvar: ' + error.message;
+
+        return;
+    }
+
+
+    mensagem.textContent =
+        '✓ Alterações salvas online!';
+
+}
+
+
+async function sair() {
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById('painel').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+
+}
+
+</script>
+
+</body>
+</html>
