@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel — Ferreira Laranjeira</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<style>body{font-family:Arial,sans-serif;background:#090909;color:#eee;max-width:980px;margin:auto;padding:30px}h1,h2{font-family:Georgia,serif;color:#f0ca78}.box{border:1px solid #292929;padding:24px;margin:18px 0;background:#111;border-radius:8px}label{display:block;margin:15px 0 6px;color:#f0ca78}input,textarea{width:100%;box-sizing:border-box;background:#080808;border:1px solid #444;color:#fff;padding:12px;border-radius:5px}textarea{min-height:100px;resize:vertical}.btn{background:#c99a45;color:#111;border:0;padding:13px 20px;margin:12px 8px 0 0;cursor:pointer;font-weight:bold;border-radius:4px}.secondary{background:#333;color:#fff}.hidden{display:none}.msg{margin-top:15px;color:#9bd59b}.err{color:#ff9c9c}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style></head>
+<body>
+<h1>Painel administrativo</h1><p>Ferreira Laranjeira — edite os textos do site e salve online.</p>
+<div id="login" class="box"><h2>Entrar</h2><label>E-mail</label><input id="email" type="email" autocomplete="username"><label>Senha</label><input id="password" type="password" autocomplete="current-password"><button class="btn" id="loginBtn">Entrar</button><p id="loginMsg"></p></div>
+<div id="panel" class="hidden"><div class="box"><button class="btn secondary" id="logoutBtn">Sair</button><button class="btn" id="saveBtn">Salvar alterações</button><p id="saveMsg" class="msg"></p></div><form id="form" class="box"></form></div>
+<script src="conteudo.js"></script>
+<script>
+const fields={brand:'Marca curta',eyebrow:'Texto pequeno da capa',heroTexto:'Texto principal da capa',botaoHero:'Botão da capa',historiaEyebrow:'Texto pequeno — História',historiaTitulo:'Título da História',historiaTexto:'Texto da História',valoresEyebrow:'Texto pequeno — Valores',valoresTitulo:'Título dos Valores',tradicaoTitulo:'Título — Tradição',tradicaoTexto:'Texto — Tradição',propositoTitulo:'Título — Propósito',propositoTexto:'Texto — Propósito',futuroTitulo:'Título — Futuro',futuroTexto:'Texto — Futuro',frase:'Frase de destaque',fraseAutor:'Autor da frase',contatoEyebrow:'Texto pequeno — Contato',contatoTitulo:'Título do Contato',contatoTexto:'Texto do Contato',email:'E-mail',botaoContato:'Botão de contato',rodape:'Rodapé'};
+const f=document.getElementById('form');
+function build(c){f.innerHTML=''; Object.entries(fields).forEach(([k,l])=>{const lab=document.createElement('label');lab.textContent=l;f.appendChild(lab);const el=document.createElement(['heroTexto','historiaTexto','tradicaoTexto','propositoTexto','futuroTexto','frase','contatoTexto','rodape'].includes(k)?'textarea':'input');el.id=k;el.value=c[k]||'';f.appendChild(el)});}
+function get(){const o={};Object.keys(fields).forEach(k=>o[k]=document.getElementById(k).value);return o}
+let client=null;
+function showLogin(){document.getElementById('login').classList.remove('hidden');document.getElementById('panel').classList.add('hidden')}
+function showPanel(){document.getElementById('login').classList.add('hidden');document.getElementById('panel').classList.remove('hidden')}
+async function start(){
+ if(!window.supabase || SUPABASE_URL.includes('COLE_AQUI')){document.getElementById('loginMsg').textContent='Configure primeiro o supabase-config.js.';document.getElementById('loginMsg').className='err';return;}
+ client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+ const {data:{session}}=await client.auth.getSession();
+ if(session) await loadContent(); else showLogin();
+ client.auth.onAuthStateChange(async (_event,session)=>{if(session) await loadContent(); else showLogin();});
+}
+async function loadContent(){
+ showPanel(); let c=window.CONTEUDO||{}; const {data,error}=await client.from('site_content').select('content').eq('id','site').maybeSingle();
+ if(error){document.getElementById('saveMsg').textContent='Erro ao carregar: '+error.message;document.getElementById('saveMsg').className='err';}
+ if(data&&data.content)c=data.content; build(c);
+}
+document.getElementById('loginBtn').onclick=async()=>{const email=document.getElementById('email').value,password=document.getElementById('password').value;const {error}=await client.auth.signInWithPassword({email,password});document.getElementById('loginMsg').textContent=error?error.message:'Entrando...';document.getElementById('loginMsg').className=error?'err':'msg'};
+document.getElementById('logoutBtn').onclick=()=>client.auth.signOut();
+document.getElementById('saveBtn').onclick=async()=>{const {error}=await client.from('site_content').upsert({id:'site',content:get(),updated_at:new Date().toISOString()});const m=document.getElementById('saveMsg');m.textContent=error?'Erro ao salvar: '+error.message:'Alterações salvas online!';m.className=error?'err':'msg'};
+start();
+</script></body></html>
