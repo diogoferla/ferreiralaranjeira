@@ -6,7 +6,7 @@
 
 <title>Ferreira Laranjeira</title>
 
-<meta name="description" content="Ferreira Laranjeira — tradição, família, valores e futuro.">
+<meta id="metaDescription" name="description" content="Ferreira Laranjeira — tradição, família, valores e futuro.">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap');
@@ -265,13 +265,27 @@ footer {
 <header id="inicio">
 
     <nav>
-        <img src="logo.png" alt="Ferreira Laranjeira" class="logo">
+
+        <img
+            src="logo.png"
+            alt="Ferreira Laranjeira"
+            class="logo"
+        >
 
         <ul class="nav-links">
-            <li><a href="#historia">HISTÓRIA</a></li>
-            <li><a href="#valores">VALORES</a></li>
-            <li><a href="#contato">CONTATO</a></li>
+            <li>
+                <a href="#historia">HISTÓRIA</a>
+            </li>
+
+            <li>
+                <a href="#valores">VALORES</a>
+            </li>
+
+            <li>
+                <a href="#contato">CONTATO</a>
+            </li>
         </ul>
+
     </nav>
 
     <div class="hero">
@@ -280,15 +294,17 @@ footer {
             FAMÍLIA • TRADIÇÃO • LEGADO
         </div>
 
-        <h1>Ferreira<br>Laranjeira</h1>
+        <h1 id="brand">
+            Ferreira<br>Laranjeira
+        </h1>
 
-        <p>
+        <p id="heroTexto">
             Uma história construída através de gerações,
             preservando nossas raízes, nossos valores
             e aquilo que queremos deixar para o futuro.
         </p>
 
-        <a href="#historia" class="btn">
+        <a href="#historia" class="btn" id="botaoHero">
             CONHEÇA NOSSA HISTÓRIA
         </a>
 
@@ -301,15 +317,15 @@ footer {
 
     <div class="container">
 
-        <div class="section-small">
+        <div class="section-small" id="historiaEyebrow">
             Nossa história
         </div>
 
-        <h2 class="section-title">
+        <h2 class="section-title" id="historiaTitulo">
             Raízes que atravessam gerações.
         </h2>
 
-        <p class="section-text">
+        <p class="section-text" id="historiaTexto1">
             Ferreira Laranjeira representa mais do que um sobrenome.
             Representa pessoas, histórias, encontros, conquistas,
             desafios e memórias que foram construídas ao longo do tempo.
@@ -317,7 +333,7 @@ footer {
 
         <br>
 
-        <p class="section-text">
+        <p class="section-text" id="historiaTexto2">
             Este espaço foi criado para preservar nossa história,
             valorizar nossas origens e manter vivo o legado que
             será transmitido às próximas gerações.
@@ -332,41 +348,58 @@ footer {
 
     <div class="container">
 
-        <div class="section-small">
+        <div class="section-small" id="valoresEyebrow">
             Nossos valores
         </div>
 
-        <h2 class="section-title">
+        <h2 class="section-title" id="valoresTitulo">
             Aquilo que nos define.
         </h2>
 
         <div class="cards">
 
             <div class="card">
-                <h3>Família</h3>
-                <p>
+
+                <h3 id="familiaTitulo">
+                    Família
+                </h3>
+
+                <p id="familiaTexto">
                     Nossa história começa nas pessoas.
                     Valorizar quem veio antes e quem continuará
                     nossa caminhada é parte essencial do nosso legado.
                 </p>
+
             </div>
 
+
             <div class="card">
-                <h3>Tradição</h3>
-                <p>
+
+                <h3 id="tradicaoTitulo">
+                    Tradição
+                </h3>
+
+                <p id="tradicaoTexto">
                     Conhecer nossas origens é preservar aquilo
                     que nos trouxe até aqui e manter nossas histórias
                     vivas através das gerações.
                 </p>
+
             </div>
 
+
             <div class="card">
-                <h3>Futuro</h3>
-                <p>
+
+                <h3 id="futuroTitulo">
+                    Futuro
+                </h3>
+
+                <p id="futuroTexto">
                     Todo legado existe para continuar.
                     O futuro é construído respeitando nossas raízes
                     e criando novas histórias.
                 </p>
+
             </div>
 
         </div>
@@ -378,12 +411,12 @@ footer {
 
 <section class="quote">
 
-    <div class="quote-text">
+    <div class="quote-text" id="frase">
         “Um nome pode atravessar gerações.
         Uma história pode atravessar o tempo.”
     </div>
 
-    <div class="quote-author">
+    <div class="quote-author" id="fraseAutor">
         Ferreira Laranjeira
     </div>
 
@@ -394,21 +427,25 @@ footer {
 
     <div class="container">
 
-        <div class="section-small">
+        <div class="section-small" id="contatoEyebrow">
             Contato
         </div>
 
-        <h2 class="section-title">
+        <h2 class="section-title" id="contatoTitulo">
             Faça parte da nossa história.
         </h2>
 
-        <p class="section-text">
+        <p class="section-text" id="contatoTexto">
             Este site está sendo construído para reunir,
             preservar e compartilhar a história da família
             Ferreira Laranjeira.
         </p>
 
-        <a href="mailto:contato@ferreiralaranjeira.com.br" class="btn">
+        <a
+            href="mailto:contato@ferreiralaranjeira.com.br"
+            class="btn"
+            id="botaoContato"
+        >
             ENTRAR EM CONTATO
         </a>
 
@@ -417,61 +454,347 @@ footer {
 </section>
 
 
-<footer>
+<footer id="rodape">
     © 2026 Ferreira Laranjeira — Tradição, propósito e futuro.
 </footer>
+
+
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const client = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
 
-  const { data, error } = await client
-    .from('site_content')
-    .select('content')
-    .eq('id', 'site')
-    .maybeSingle();
+const SUPABASE_URL =
+    'https://yngpwflmlipthvgkfbue.supabase.co';
 
-  if (error || !data || !data.content) return;
+const SUPABASE_PUBLISHABLE_KEY =
+    'sb_publishable_jm_plPj3xmnhE7I5OthulQ_NDtpCSeu';
 
-  const c = data.content;
 
-  const setText = (selector, value) => {
-    const el = document.querySelector(selector);
-    if (el && value != null) el.textContent = value;
-  };
+function colocarTexto(id, valor) {
 
-  setText('.hero-small', c.heroEyebrow);
-  setText('.hero h1', c.brand);
-  setText('.hero p', c.heroTexto);
-  setText('.values .section-title', c.valoresTitulo);
+    const elemento = document.getElementById(id);
 
-  const history = document.querySelectorAll('.history .section-text');
+    if (elemento && valor !== undefined && valor !== null && valor !== '') {
+        elemento.textContent = valor;
+    }
 
-  if (history.length) {
-    const partes = (c.historiaTexto || '').split(/\n\s*\n/);
-    if (history[0]) history[0].textContent = partes[0] || '';
-    if (history[1]) history[1].textContent = partes[1] || '';
-  }
+}
 
-  setText('.values .card:nth-child(1) p', c.familiaTexto);
-  setText('.values .card:nth-child(2) p', c.tradicaoTexto);
-  setText('.values .card:nth-child(3) p', c.futuroTexto);
 
-  setText('.quote-text', c.frase);
-  setText('.quote-author', c.fraseAutor);
-  setText('.contact .section-text', c.contatoTexto);
+function colocarMarca(valor) {
 
-  const contato = document.querySelector('.contact .btn');
+    const elemento = document.getElementById('brand');
 
-  if (contato && c.emailContato) {
-    contato.href = 'mailto:' + c.emailContato;
-  }
-});
+    if (!elemento || !valor) {
+        return;
+    }
+
+    elemento.innerHTML = '';
+
+    const palavras = String(valor).trim().split(/\s+/);
+
+    palavras.forEach((palavra, indice) => {
+
+        if (indice > 0) {
+            elemento.appendChild(document.createElement('br'));
+        }
+
+        elemento.appendChild(
+            document.createTextNode(palavra)
+        );
+
+    });
+
+}
+
+
+function separarHistoria(texto) {
+
+    if (!texto) {
+        return;
+    }
+
+    const partes = String(texto)
+        .split(/\n\s*\n/)
+        .map(parte => parte.trim())
+        .filter(Boolean);
+
+    const primeira = document.getElementById('historiaTexto1');
+    const segunda = document.getElementById('historiaTexto2');
+
+    if (primeira && partes[0]) {
+        primeira.textContent = partes[0];
+    }
+
+    if (segunda && partes[1]) {
+        segunda.textContent = partes[1];
+    }
+
+}
+
+
+async function carregarConteudo() {
+
+    try {
+
+        const cliente = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+
+        const resultado = await cliente
+            .from('site_content')
+            .select('content')
+            .eq('id', 'site')
+            .maybeSingle();
+
+
+        if (resultado.error) {
+
+            console.error(
+                'Erro ao carregar conteúdo do Supabase:',
+                resultado.error
+            );
+
+            return;
+        }
+
+
+        if (!resultado.data || !resultado.data.content) {
+
+            console.log(
+                'Nenhum conteúdo online encontrado.'
+            );
+
+            return;
+        }
+
+
+        const conteudo = resultado.data.content;
+
+
+        /* MARCA */
+
+        if (conteudo.brand) {
+            colocarMarca(conteudo.brand);
+
+            document.title =
+                conteudo.brand;
+        }
+
+
+        /* DESCRIÇÃO */
+
+        if (conteudo.brand) {
+
+            const meta =
+                document.getElementById('metaDescription');
+
+            if (meta) {
+
+                meta.setAttribute(
+                    'content',
+                    conteudo.brand +
+                    ' — tradição, família, valores e futuro.'
+                );
+
+            }
+
+        }
+
+
+        /* HERO */
+
+        colocarTexto(
+            'heroTexto',
+            conteudo.heroTexto
+        );
+
+        colocarTexto(
+            'heroEyebrow',
+            conteudo.heroEyebrow
+        );
+
+        colocarTexto(
+            'botaoHero',
+            conteudo.botaoHero
+        );
+
+
+        const heroEyebrow =
+            document.querySelector('.hero-small');
+
+        if (
+            heroEyebrow &&
+            conteudo.heroEyebrow
+        ) {
+
+            heroEyebrow.textContent =
+                conteudo.heroEyebrow;
+
+        }
+
+
+        /* HISTÓRIA */
+
+        colocarTexto(
+            'historiaEyebrow',
+            conteudo.historiaEyebrow
+        );
+
+        colocarTexto(
+            'historiaTitulo',
+            conteudo.historiaTitulo
+        );
+
+        separarHistoria(
+            conteudo.historiaTexto
+        );
+
+
+        /* VALORES */
+
+        colocarTexto(
+            'valoresEyebrow',
+            conteudo.valoresEyebrow
+        );
+
+        colocarTexto(
+            'valoresTitulo',
+            conteudo.valoresTitulo
+        );
+
+
+        /* FAMÍLIA */
+
+        colocarTexto(
+            'familiaTitulo',
+            conteudo.familiaTitulo
+        );
+
+        colocarTexto(
+            'familiaTexto',
+            conteudo.familiaTexto
+        );
+
+
+        /* TRADIÇÃO */
+
+        colocarTexto(
+            'tradicaoTitulo',
+            conteudo.tradicaoTitulo
+        );
+
+        colocarTexto(
+            'tradicaoTexto',
+            conteudo.tradicaoTexto
+        );
+
+
+        /* FUTURO */
+
+        colocarTexto(
+            'futuroTitulo',
+            conteudo.futuroTitulo
+        );
+
+        colocarTexto(
+            'futuroTexto',
+            conteudo.futuroTexto
+        );
+
+
+        /* FRASE */
+
+        colocarTexto(
+            'frase',
+            conteudo.frase
+        );
+
+        colocarTexto(
+            'fraseAutor',
+            conteudo.fraseAutor
+        );
+
+
+        /* CONTATO */
+
+        colocarTexto(
+            'contatoEyebrow',
+            conteudo.contatoEyebrow
+        );
+
+        colocarTexto(
+            'contatoTitulo',
+            conteudo.contatoTitulo
+        );
+
+        colocarTexto(
+            'contatoTexto',
+            conteudo.contatoTexto
+        );
+
+        colocarTexto(
+            'botaoContato',
+            conteudo.botaoContato
+        );
+
+
+        /* E-MAIL */
+
+        if (conteudo.emailContato) {
+
+            const contato =
+                document.getElementById('botaoContato');
+
+            if (contato) {
+
+                contato.href =
+                    'mailto:' +
+                    conteudo.emailContato;
+
+            }
+
+        }
+
+
+        /* RODAPÉ */
+
+        if (conteudo.rodape) {
+
+            colocarTexto(
+                'rodape',
+                conteudo.rodape
+            );
+
+        }
+
+
+        console.log(
+            '✓ Conteúdo carregado do Supabase.'
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            'Erro inesperado ao carregar o site:',
+            erro
+        );
+
+    }
+
+}
+
+
+document.addEventListener(
+    'DOMContentLoaded',
+    carregarConteudo
+);
+
 </script>
 
 </body>
