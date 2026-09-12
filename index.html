@@ -420,6 +420,60 @@ footer {
 <footer>
     © 2026 Ferreira Laranjeira — Tradição, propósito e futuro.
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const { data, error } = await client
+    .from('site_content')
+    .select('content')
+    .eq('id', 'site')
+    .maybeSingle();
+
+  if (error || !data || !data.content) return;
+
+  const c = data.content;
+
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el && value != null) el.textContent = value;
+  };
+
+  setText('.hero-small', c.heroEyebrow);
+  setText('.hero h1', c.brand);
+  setText('.hero p', c.heroTexto);
+  setText('.values .section-title', c.valoresTitulo);
+
+  const history = document.querySelectorAll('.history .section-text');
+
+  if (history.length) {
+    const partes = (c.historiaTexto || '').split(/\n\s*\n/);
+    if (history[0]) history[0].textContent = partes[0] || '';
+    if (history[1]) history[1].textContent = partes[1] || '';
+  }
+
+  setText('.values .card:nth-child(1) p', c.familiaTexto);
+  setText('.values .card:nth-child(2) p', c.tradicaoTexto);
+  setText('.values .card:nth-child(3) p', c.futuroTexto);
+
+  setText('.quote-text', c.frase);
+  setText('.quote-author', c.fraseAutor);
+  setText('.contact .section-text', c.contatoTexto);
+
+  const contato = document.querySelector('.contact .btn');
+
+  if (contato && c.emailContato) {
+    contato.href = 'mailto:' + c.emailContato;
+  }
+});
+</script>
+</script>
 
 </body>
 </html>
